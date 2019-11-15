@@ -1,0 +1,16 @@
+{
+  "presets": ["@babel/env"],
+  "plugins": [
+    "@babel/proposal-class-properties",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-object-rest-spread",
+    ["module-resolver", {
+      "root": ["./src"],
+      "alias": {
+        "@": "./src",
+        "Routes": "./src/routes",
+        "Controllers": "./src/controllers"
+      }
+    }]
+  ]
+}

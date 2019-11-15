@@ -1,0 +1,40 @@
+{
+  "name": "bootserver",
+  "version": "1.0.0",
+  "description": "A CLI to bootstrap fast rest APIs",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "diego.lamarao/bootserver": "bin/bootserver",
+    "bootserver": "bin/bootserver"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "cli",
+    "create-api",
+    "api"
+  ],
+  "files": [
+    "bin/",
+    "src/",
+    "templates/"
+  ],
+  "author": "Diego Lamarão",
+  "license": "MIT",
+  "dependencies": {
+    "arg": "^4.1.1",
+    "chalk": "^3.0.0",
+    "clear": "^0.1.0",
+    "esm": "^3.2.25",
+    "execa": "^3.3.0",
+    "figlet": "^1.2.4",
+    "inquirer": "^7.0.0",
+    "listr": "^0.14.3",
+    "ncp": "^2.0.0",
+    "pkg-install": "^1.0.0"
+  }
+}
