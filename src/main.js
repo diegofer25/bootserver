@@ -26,6 +26,21 @@ async function initGit(options) {
   return;
 }
 
+async function setPackageJsonInfo (options) {
+  const pkg = require('./../template/package.json');
+  pkg.name = options.projectName
+  pkg.description = options.projectDescription
+  pkg.keywords = options.projectKeys.split(',')
+  pkg.author = options.projectAuthor
+  pkg.license = options.projectLicense
+  return await new Promise(resolve => {
+    fs.writeFile(__dirname + "/../template/package.json", JSON.stringify(pkg, null, 1), function(err) {
+      if (err) console.log(err)
+      resolve(true)
+    })
+  });
+}
+
 export async function createProject(options) {
   options = {
     ...options,
@@ -37,7 +52,6 @@ export async function createProject(options) {
     new URL(currentFileUrl).pathname,
     '../../template'
   );
-  console.log(templateDir)
   options.templateDirectory = templateDir;
 
   try {
@@ -47,15 +61,10 @@ export async function createProject(options) {
     process.exit(1);
   }
 
-  const pkg = require('./../template/package.json');
-  pkg.name = options.projectName
-  await new Promise(resolve => {
-    fs.writeFile(__dirname + "/../template/package.json", JSON.stringify(pkg), function(err) {
-      if (err) console.log(err)
-      resolve(true)
-    })
-  });
-  const tasks = new Listr([
+  const tasks = new Listr([{
+      title: 'Setting project infos',
+      task: () => setPackageJsonInfo(options)
+    },
     {
       title: 'Copy project files',
       task: () => copyTemplateFiles(options),
@@ -74,9 +83,15 @@ export async function createProject(options) {
   ]);
 
   await tasks.run();
-  console.log('%s Project ready', chalk.green.bold('DONE'));
-  console.log(`cd ${options.projectName}`)
-  console.log('npm run dev - for development')
-  console.log('npm run start - for production')
+  console.log('\n %s Project ready', chalk.green.bold('DONE'));
+  console.log(`
+    ${chalk.green('---------------------------------------------------')}
+        cd ${chalk.bold(options.projectName)}
+
+        ${chalk.bold('npm run dev')} - for development
+
+        ${chalk.bold('npm run start')} - for production
+    ${chalk.green('---------------------------------------------------')}
+  `)
   return true;
 }
