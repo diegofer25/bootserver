@@ -71,6 +71,10 @@ export async function cli(args) {
     )
   );
   let options = parseArgumentsIntoOptions(args);
-  options = await promptForMissingOptions(options);
-  await createProject(options)
+  if (options.projectName) {
+    options = await promptForMissingOptions(options);
+    await createProject(options)
+  } else {
+    console.error('%s Invalid project name', chalk.red.bold('ERROR'));
+  }
 }

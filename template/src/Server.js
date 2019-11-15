@@ -28,7 +28,7 @@ export class Server {
   listenServer (app) {
     const port = process.env.PORT || 4000
     app.listen(port, function() {
-      console.log(`Server is Online as port ${port}`)
+      console.log(`Server is Online at port ${port}`)
     })
   }
 
