@@ -1,9 +1,10 @@
 # BootServer
 
-###How to install
+###Usage with npx
+
+> npx bootserver **your-project-name**
+
+###Usage with npm
 
 > npm install -g bootserver
-
-###Usage
-
 > bootserver **your-project-name**

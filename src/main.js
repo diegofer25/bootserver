@@ -1,50 +1,21 @@
 import chalk from 'chalk';
 import fs from 'fs';
-import ncp from 'ncp';
 import path from 'path';
 import { promisify } from 'util';
-import execa from 'execa';
 import Listr from 'listr';
 import { projectInstall } from 'pkg-install';
 
+import initGit from './methods/init-git'
+import setPackageJson from './methods/set-package-json'
+import copyTemplateFiles from './methods/copy-files'
+import runEslint from './methods/run-eslint'
+
 const access = promisify(fs.access);
-const copy = promisify(ncp);
-
-async function copyTemplateFiles(options) {
- return copy(options.templateDirectory, options.targetDirectory, {
-   clobber: false,
- });
-}
-
-async function initGit(options) {
-  const result = await execa('git', ['init'], {
-    cwd: options.targetDirectory,
-  });
-  if (result.failed) {
-    return Promise.reject(new Error('Failed to initialize git'));
-  }
-  return;
-}
-
-async function setPackageJsonInfo (options) {
-  const pkg = require('./../template/package.json');
-  pkg.name = options.projectName
-  pkg.description = options.projectDescription
-  pkg.keywords = options.projectKeys.split(',')
-  pkg.author = options.projectAuthor
-  pkg.license = options.projectLicense
-  return await new Promise(resolve => {
-    fs.writeFile(__dirname + "/../template/package.json", JSON.stringify(pkg, null, 1), function(err) {
-      if (err) console.log(err)
-      resolve(true)
-    })
-  });
-}
 
 export async function createProject(options) {
   options = {
     ...options,
-    targetDirectory: options.projectName,
+    targetDirectory: options.name,
   };
 
   const currentFileUrl = import.meta.url;
@@ -63,7 +34,7 @@ export async function createProject(options) {
 
   const tasks = new Listr([{
       title: 'Setting project infos',
-      task: () => setPackageJsonInfo(options)
+      task: () => setPackageJson(options)
     },
     {
       title: 'Copy project files',
@@ -78,15 +49,16 @@ export async function createProject(options) {
       title: 'Install dependencies',
       task: () => projectInstall({
         cwd: options.targetDirectory,
-      })
-    },
+      }),
+      enabled: () => options.git
+    }
   ]);
 
   await tasks.run();
   console.log('\n %s Project ready', chalk.green.bold('DONE'));
   console.log(`
     ${chalk.green('---------------------------------------------------')}
-        cd ${chalk.bold(options.projectName)}
+        cd ${chalk.bold(options.name)}
 
         ${chalk.bold('npm run dev')} - for development
 

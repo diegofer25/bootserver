@@ -1,6 +1,10 @@
-{
-      "name": "teste",
-      "description": "A awesome bootserver api",
+import fs from 'fs';
+
+export default async ({ name, description, keys, author, license }) => {
+  return await new Promise(resolve => {
+    fs.writeFile(__dirname + "/../../template/package.json", `{
+      "name": "${name}",
+      "description": "${description}",
       "version": "1.0.0",
       "main": "src/index.js",
       "scripts": {
@@ -9,10 +13,12 @@
         "start": "babel-node ./index.js"
       },
       "keywords": [
-        "bootserver"," api"
+        ${keys.split(',').map(key => {
+          return `"${key}"`
+        })}
       ],
-      "author": "Diego Lamarão",
-      "license": "MIT",
+      "author": "${author}",
+      "license": "${license}",
       "dependencies": {
         "restify": "^8.4.0"
       },
@@ -29,4 +35,9 @@
         "kill-port": "^1.5.1",
         "nodemon": "^1.19.1"
       }
-    }
+    }`, function(err) {
+      if (err) console.log(err)
+      resolve(true)
+    })
+  });
+}
