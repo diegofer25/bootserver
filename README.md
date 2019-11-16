@@ -7,4 +7,5 @@
 ###Usage with npm
 
 > npm install -g bootserver
+
 > bootserver **your-project-name**
