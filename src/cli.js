@@ -6,7 +6,7 @@ import chalk from 'chalk';
 import parseArgumentsIntoOptions from './methods/parse-argument-options'
 import showHelpList from './methods/show-help-list'
 import initialQuestions from './methods/ask-initials-questions'
-import createController from './methods/create-controller'
+import createRouter from './methods/create-router'
 import { createProject } from './main';
 
 export async function cli(args) {
@@ -22,9 +22,9 @@ export async function cli(args) {
       showHelpList()
     } else if (options.version) {
       var pjson = require('./../package.json');
-      console.log(chalk.green(pjson.version));
-    } else if (options.controller) {
-      createController(options)
+      console.log(chalk.bold(pjson.version));
+    } else if (options.router) {
+      createRouter(options)
     } else if (options.name) {
       if (!fs.existsSync(`${process.cwd()}/${options.name}`)) {
         options = await initialQuestions(options);

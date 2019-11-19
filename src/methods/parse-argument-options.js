@@ -7,8 +7,8 @@ export default (rawArgs) => {
       '-h': '--help',
       '--version': Boolean,
       '-v': '--version',
-      '--controller': Boolean,
-      '-c': '--controller'
+      '--router': Boolean,
+      '-r': '--router'
     },
     {
       argv: rawArgs.slice(2)
@@ -18,6 +18,6 @@ export default (rawArgs) => {
     name: args._[0],
     help: args['--help'] || false,
     version: args['--version'] || false,
-    controller: args['--controller'] || false
+    router: args['--router'] || false
   };
  }
