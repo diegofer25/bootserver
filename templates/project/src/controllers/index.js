@@ -1,6 +1,5 @@
-export const get = ({ test }, req, res) => {
-  console.log(test)
-  res.send(test)
+export const get = ({ testMessage }, req, res) => {
+  res.send(testMessage)
 }
 
 export const post = (dependencies, req, res) => {}

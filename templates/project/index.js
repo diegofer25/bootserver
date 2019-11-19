@@ -1,13 +1,18 @@
-import { Server } from './src/Server'
-import { createServer } from 'restify'
-import * as routes from 'Routes'
+import { Server } from 'bootserver'
+import routes from 'Routes'
 
 const server = new Server({
+  routes,
   dependencies: {
-    test: 'API is online'
+    testMessage: 'API is online',
+    port: process.env.PORT || 4000
   },
-  routes
+  beforeStart: async ({ app, dependencies }) => {
+    console.log(this)
+  },
+  afterStart: async ({ app, dependencies }) => {
+    console.log(`API is Online at port ${dependencies.port}`)
+  }
 })
 
-const app = createServer()
-server.start(app)
+server.start()

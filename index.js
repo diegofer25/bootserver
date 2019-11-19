@@ -1,6 +1,2 @@
-try {
-  require = require('esm')(module);
-  require('./src/cli').cli(process.argv);
-} catch (error) {
-  console.log(error.message)
-}
+const Server = require('./Server')
+exports.Server = Server

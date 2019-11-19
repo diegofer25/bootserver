@@ -1,22 +1,26 @@
-export class Server {
-  constructor ({ dependencies, routes, app }) {
+module.exports = class Server {
+  constructor ({ dependencies }) {
     this.dependencies = dependencies
-    this.app = app
-    this.routes = routes
   }
 
-  start (app) {
+  async start ({ app, routes, beforeStart, afterStart }) {
+    await beforeStart(this.dependencies)
+
     this.listenMiddlewares(app)
-    this.listenRoutes(app)
+    this.listenRoutes(app, routes)
     this.listenServer(app)
+
+    await beforeStart(this.dependencies)
   }
 
   listenMiddlewares (app) {
+    // Your midleware here
+    // app.use(...)
   }
 
-  listenRoutes (app) {
+  listenRoutes (app, routes) {
     const { dependencies } = this
-    Object.entries(this.routes).forEach(([ method, routes ]) => {
+    Object.entries(routes).forEach(([ method, routes ]) => {
       routes.forEach(({ path, callback }) => {
         app[method](path, async (...args) => {
           (await callback)[method](dependencies, ...args)
@@ -27,9 +31,7 @@ export class Server {
 
   listenServer (app) {
     const port = process.env.PORT || 4000
-    app.listen(port, function() {
-      console.log(`Server is Online at port ${port}`)
-    })
+    app.listen(this.dependencies.port)
   }
 
   setDependence (name, value) {

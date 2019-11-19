@@ -28,8 +28,8 @@ export async function cli(args) {
     } else if (options.name) {
       if (!fs.existsSync(`${process.cwd()}/${options.name}`)) {
         options = await initialQuestions(options);
-      } else {
         await createProject(options)
+      } else {
         console.error('%s Project folder already exist', chalk.red.bold('ERROR'));
       }
     } else {
