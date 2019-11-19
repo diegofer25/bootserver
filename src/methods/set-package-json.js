@@ -2,7 +2,7 @@ import fs from 'fs';
 
 export default async ({ name, description, keys, author, license }) => {
   return await new Promise(resolve => {
-    fs.writeFile(__dirname + "/../../template/package.json", `{
+    fs.writeFile(__dirname + "/../../templates/project/package.json", `{
       "name": "${name}",
       "description": "${description}",
       "version": "1.0.0",

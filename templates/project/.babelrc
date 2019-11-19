@@ -9,7 +9,9 @@
       "alias": {
         "@": "./src",
         "Routes": "./src/routes",
-        "Controllers": "./src/controllers"
+        "Controllers": "./src/controllers",
+        "Services": "./src/services",
+        "Utils": "./src/utils"
       }
     }]
   ]

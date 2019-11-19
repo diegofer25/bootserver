@@ -7,26 +7,24 @@ import { projectInstall } from 'pkg-install';
 
 import initGit from './methods/init-git'
 import setPackageJson from './methods/set-package-json'
-import copyTemplateFiles from './methods/copy-files'
-import runEslint from './methods/run-eslint'
+import copyProjectFiles from './methods/copy-files'
 
 const access = promisify(fs.access);
 
 export async function createProject(options) {
   options = {
     ...options,
-    targetDirectory: options.name,
+    pathTo: options.name,
   };
 
   const currentFileUrl = import.meta.url;
-  const templateDir = path.resolve(
+  options.pathFrom = path.resolve(
     new URL(currentFileUrl).pathname,
-    '../../template'
+    '../../templates/project'
   );
-  options.templateDirectory = templateDir;
 
   try {
-    await access(templateDir, fs.constants.R_OK);
+    await access(options.pathFrom, fs.constants.R_OK);
   } catch (err) {
     console.error('%s Invalid template name', chalk.red.bold('ERROR'));
     process.exit(1);
@@ -38,7 +36,7 @@ export async function createProject(options) {
     },
     {
       title: 'Copy project files',
-      task: () => copyTemplateFiles(options),
+      task: () => copyProjectFiles(options),
     },
     {
       title: 'Initialize git',
@@ -48,7 +46,7 @@ export async function createProject(options) {
     {
       title: 'Install dependencies',
       task: () => projectInstall({
-        cwd: options.targetDirectory,
+        cwd: options.pathTo,
       }),
       enabled: () => options.git
     }
