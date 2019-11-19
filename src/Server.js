@@ -22,10 +22,11 @@ module.exports = class Server {
 
   listenRoutes () {
     const { dependencies } = this
-    Object.entries(this.routes).forEach(([ method, routes ]) => {
-      routes.forEach(({ path, callback }) => {
+    Object.entries(this.routes).forEach(([ fileName, methods ]) => {
+      const path = fileName === 'Index' ? '/' : String(fileName).toLowerCase()
+      Object.entries(methods).forEach(([ method, callback ]) => {
         app[method](path, async (...args) => {
-          (await callback)[method](dependencies, ...args)
+          await callback(dependencies, ...args)
         })
       })
     })
