@@ -1,5 +1,5 @@
 import { Server } from 'bootserver'
-import routes from 'Routes'
+import * as routes from 'Routes'
 
 const server = new Server({
   routes,
@@ -8,7 +8,6 @@ const server = new Server({
     port: process.env.PORT || 4000
   },
   beforeStart: async ({ app, dependencies }) => {
-    console.log(this)
     console.log('Starting the API Server')
   },
   afterStart: async ({ app, dependencies }) => {
