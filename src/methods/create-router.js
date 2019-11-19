@@ -6,11 +6,11 @@ import copyRouter from './copy-files'
 export default async ({ name }) => {
   const currentPath = process.cwd()
   const srcPath = `${currentPath}/src`
-  const routersPath = `${srcPath}/routers`
-  const pathTo = `${routersPath}/${name}.js`
+  const routesPath = `${srcPath}/routes`
+  const pathTo = `${routesPath}/${name}.js`
 
   if (!fs.existsSync(pathTo)) {
-    if (fs.existsSync(srcPath) && fs.existsSync(routersPath)) {
+    if (fs.existsSync(srcPath) && fs.existsSync(routesPath)) {
 
       const currentFileUrl = import.meta.url;
       const pathFrom = path.resolve(
@@ -24,7 +24,7 @@ export default async ({ name }) => {
     }
   } else {
     console.log(
-      `%s The router ${chalk.bold(name)}.js already exist at ${chalk.bold(routersPath)}`, chalk.red('ERROR')
+      `%s The router ${chalk.bold(name)}.js already exist at ${chalk.bold(routesPath)}`, chalk.red('ERROR')
     )
   }
 }
