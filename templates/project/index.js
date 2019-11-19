@@ -9,9 +9,10 @@ const server = new Server({
   },
   beforeStart: async ({ app, dependencies }) => {
     console.log(this)
+    console.log('Starting the API Server')
   },
   afterStart: async ({ app, dependencies }) => {
-    console.log(`API is Online at port ${dependencies.port}`)
+    console.log(`API Server is Online at port ${dependencies.port}`)
   }
 })
 

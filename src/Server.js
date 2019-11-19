@@ -1,24 +1,26 @@
+const app = require('restify').createServer()
 module.exports = class Server {
-  constructor ({ dependencies }) {
+  constructor ({ dependencies, routes, beforeStart, afterStart }) {
     this.dependencies = dependencies
+    this.routes = routes
+    this.beforeStart = beforeStart
+    this.afterStart = afterStart
   }
 
-  async start ({ app, routes, beforeStart, afterStart }) {
-    await beforeStart(this.dependencies)
+  async start () {
+    if (this.beforeStart) {
+      await this.beforeStart({ app, dependencies: this.dependencies })
+    }
 
-    this.listenMiddlewares(app)
     this.listenRoutes(app, routes)
     this.listenServer(app)
 
-    await beforeStart(this.dependencies)
+    if (this.afterStart) {
+      await this.afterStart({ app, dependencies: this.dependencies })
+    }
   }
 
-  listenMiddlewares (app) {
-    // Your midleware here
-    // app.use(...)
-  }
-
-  listenRoutes (app, routes) {
+  listenRoutes (routes) {
     const { dependencies } = this
     Object.entries(routes).forEach(([ method, routes ]) => {
       routes.forEach(({ path, callback }) => {
@@ -29,7 +31,7 @@ module.exports = class Server {
     })
   }
 
-  listenServer (app) {
+  listenServer () {
     const port = process.env.PORT || 4000
     app.listen(this.dependencies.port)
   }
