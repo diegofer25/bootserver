@@ -21,7 +21,8 @@
   "files": [
     "bin/",
     "src/",
-    "template/"
+    "template/",
+    "index.js"
   ],
   "author": "Diego Lamarão",
   "license": "MIT",
