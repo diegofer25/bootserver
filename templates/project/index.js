@@ -1,5 +1,5 @@
 import { Server } from 'bootserver'
-import * as routes from 'Routes'
+import * as routes from './src/routes'
 
 const server = new Server({
   routes,
