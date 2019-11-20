@@ -14,7 +14,7 @@
       "author": "Diego Lamarão",
       "license": "MIT",
       "dependencies": {
- "bootserver": "^1.6.0"
+ "bootserver": "^1.6.1"
 },
       "devDependencies": {
  "@babel/core": "^7.5.5",
