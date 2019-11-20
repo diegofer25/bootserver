@@ -17,4 +17,6 @@ To use commands you need type: `bootserver command` or `npx bootserver command`
 
 - `--version` or `-v` to see the version of bootserver
 
-- `--controller controller-name` or `-c controller-name` to create a new controller
+- `--router router-name` or `-r router-name` to create a new router
+------------
+&copy; BootServer 2019
