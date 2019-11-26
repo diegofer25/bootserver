@@ -1,8 +1,6 @@
-import { ServerCreator } from 'bootserver'
-import * as routes from './src/routes'
+import { CreateServer } from 'bootserver'
 
-const server = ServerCreator({
-  routes,
+const server = CreateServer({
   dependencies: {
     testMessage: 'API is online',
     port: process.env.PORT || 4000

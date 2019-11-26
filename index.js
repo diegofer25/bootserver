@@ -1,1 +1,1 @@
-exports.ServerCreator = require('./src/ServerCreator')
+exports.CreateServer = require('./src/CreateServer')
