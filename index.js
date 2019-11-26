@@ -1,2 +1,1 @@
-const Server = require('./src/Server')
-exports.Server = Server
+exports.ServerCreator = require('./src/ServerCreator')

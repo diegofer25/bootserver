@@ -1,7 +1,7 @@
-import { Server } from 'bootserver'
+import { ServerCreator } from 'bootserver'
 import * as routes from './src/routes'
 
-const server = new Server({
+const server = ServerCreator({
   routes,
   dependencies: {
     testMessage: 'API is online',
@@ -21,8 +21,8 @@ const server = new Server({
      */
     console.log('Starting the API Server')
   },
-  afterStart: async ({ app, dependencies }) => {
-    console.log(`API Server is Online at port ${dependencies.port}`)
+  afterStart: async ({ app, dependencies: { port } }) => {
+    console.log(`API Server is Online at port ${port}`)
   }
 })
 
